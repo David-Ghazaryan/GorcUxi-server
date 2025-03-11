@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { User } from "../models/index.js";
+import { User, UserInfo } from "../models/index.js";
 import { sendVerifyEmail, sendForgotPasswordEmail } from "../utils/email.js";
 
 export const signIn = async (req, res, next) => {
@@ -28,8 +28,8 @@ export const signIn = async (req, res, next) => {
 
 export const signUp = async (req, res, next) => {
   try {
-    const { email, password, fullName, role } = req.body;
-    const { language } = req.query;
+    const { email, password, fullName, isWorker, gender } = req.body;
+    const role = isWorker ? "USER" : "EMPLOYER";
     const candidate = await User.findOne({ where: { email } });
 
     if (!candidate) {
@@ -41,12 +41,17 @@ export const signUp = async (req, res, next) => {
         fullName,
       });
 
+      await UserInfo.create({
+        userId: newUser.id,
+        gender,
+      });
+
       const verificationToken = jwt.sign(
         { email: newUser.email, role: newUser.role },
         process.env.SECRET_KEY,
         { expiresIn: "1h" }
       );
-      await sendVerifyEmail(newUser.email, verificationToken, language);
+      await sendVerifyEmail(newUser.email, verificationToken);
 
       return res.send({ success: true });
     }
@@ -61,7 +66,7 @@ export const signUp = async (req, res, next) => {
       { expiresIn: "1h" }
     );
 
-    await sendVerifyEmail(candidate.email, verificationToken, language);
+    await sendVerifyEmail(candidate.email, verificationToken);
     return res
       .status(409)
       .json({ success: false, message: "EMAIL_NOT_VERIFIED" });
@@ -99,7 +104,6 @@ export const verifyEmail = async (req, res, next) => {
 export const forgotPassword = async (req, res, next) => {
   try {
     const { email } = req.body;
-    const { language } = req.query;
     const user = await User.findOne({ where: { email, emailVerified: true } });
     if (!user) {
       return res.status(400).json({ success: false, message: "Invalid email" });
@@ -108,7 +112,7 @@ export const forgotPassword = async (req, res, next) => {
     const token = jwt.sign({ email }, process.env.SECRET_KEY, {
       expiresIn: "1h",
     });
-    await sendForgotPasswordEmail(email, token, language);
+    await sendForgotPasswordEmail(email, token);
     return res.send({ success: true });
   } catch (error) {
     next(error);
