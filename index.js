@@ -5,6 +5,8 @@ import sequelize from "./db.js";
 import cors from "cors";
 import bodyParser from "body-parser";
 import AuthRoutes from "./src/routes/auth.js";
+import ReviewRoutes from "./src/routes/review.js";
+import PricingRoutes from "./src/routes/pricing.js";
 import errorHandler from "./src/middlewares/error-handler.js";
 
 const app = express();
@@ -16,6 +18,8 @@ app.use(urlencoded({ limit: "1mb", extended: true }));
 app.use(cors({}));
 
 app.use("/api/auth", AuthRoutes);
+app.use("/api/review", ReviewRoutes);
+app.use("/api/pricing", PricingRoutes);
 
 app.use(errorHandler);
 

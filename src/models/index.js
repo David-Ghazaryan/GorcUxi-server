@@ -34,12 +34,11 @@ const Company = sequelize.define("company", {
   logo: { type: DataTypes.STRING, allowNull: false },
   mail: { type: DataTypes.STRING, allowNull: false },
   backgroundImage: { type: DataTypes.STRING },
-  phoneINTEGER: { type: DataTypes.STRING, allowNull: false },
+  phoneNumber: { type: DataTypes.STRING, allowNull: false },
   minWorkes: { type: DataTypes.INTEGER, allowNull: false },
   maxWorkes: { type: DataTypes.INTEGER, allowNull: false },
   location: { type: DataTypes.TEXT("long"), allowNull: false },
   description: { type: DataTypes.TEXT("long") },
-  userId: { type: DataTypes.INTEGER, allowNull: false },
 });
 
 const Job = sequelize.define("job", {
@@ -80,7 +79,6 @@ const Pricing = sequelize.define("pricing", {
 const Review = sequelize.define("review", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   userId: { type: DataTypes.INTEGER, allowNull: false },
-  rate: { type: DataTypes.INTEGER, allowNull: false },
   text: { type: DataTypes.TEXT("medium"), allowNull: false },
 });
 

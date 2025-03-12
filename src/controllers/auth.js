@@ -63,10 +63,12 @@ export const signUp = async (req, res, next) => {
     const verificationToken = jwt.sign(
       { email: candidate.email },
       process.env.SECRET_KEY,
-      { expiresIn: "1h" }
+      {
+        expiresIn: "1h",
+      }
     );
 
-    await sendVerifyEmail(candidate.email, verificationToken);
+    await sendVerifyEmail(candidate.email, verificationToken, language);
     return res
       .status(409)
       .json({ success: false, message: "EMAIL_NOT_VERIFIED" });
