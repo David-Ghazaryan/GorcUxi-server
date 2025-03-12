@@ -1,4 +1,4 @@
-import { Pricing } from "../models/index.js";
+import { Pricing } from '../models/index.js';
 
 export const create = async (req, res, next) => {
   try {
@@ -12,7 +12,6 @@ export const create = async (req, res, next) => {
 };
 export const getAll = async (req, res, next) => {
   try {
-    const { id } = req.params;
     const data = await Pricing.findAll();
     return res.status(200).json(data);
   } catch (error) {

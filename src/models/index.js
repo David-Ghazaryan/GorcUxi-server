@@ -1,34 +1,34 @@
-import sequelize from "../../db.js";
-import { DataTypes } from "sequelize";
+import sequelize from '../../db.js';
+import { DataTypes } from 'sequelize';
 
-const User = sequelize.define("user", {
+const User = sequelize.define('user', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   email: { type: DataTypes.STRING, unique: true },
   password: { type: DataTypes.STRING },
-  role: { type: DataTypes.STRING, defaultValue: "USER" },
-  fullName: { type: DataTypes.STRING, defaultValue: "" },
+  role: { type: DataTypes.STRING, defaultValue: 'USER' },
+  fullName: { type: DataTypes.STRING, defaultValue: '' },
   emailVerified: { type: DataTypes.BOOLEAN, defaultValue: false },
   avatar: { type: DataTypes.STRING },
 });
 
-const UserInfo = sequelize.define("user_info", {
+const UserInfo = sequelize.define('user_info', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   userId: { type: DataTypes.INTEGER, allowNull: false },
   gender: { type: DataTypes.STRING, allowNull: false },
   cvUrl: { type: DataTypes.STRING },
-  info: { type: DataTypes.TEXT("long") },
+  info: { type: DataTypes.TEXT('long') },
   city: { type: DataTypes.STRING },
   industryId: { type: DataTypes.INTEGER },
   scheduleType: { type: DataTypes.STRING },
   salary: { type: DataTypes.INTEGER },
 });
 
-const Industry = sequelize.define("industry", {
+const Industry = sequelize.define('industry', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   title: { type: DataTypes.STRING, allowNull: false },
 });
 
-const Company = sequelize.define("company", {
+const Company = sequelize.define('company', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   title: { type: DataTypes.STRING, allowNull: false },
   logo: { type: DataTypes.STRING, allowNull: false },
@@ -37,14 +37,14 @@ const Company = sequelize.define("company", {
   phoneNumber: { type: DataTypes.STRING, allowNull: false },
   minWorkes: { type: DataTypes.INTEGER, allowNull: false },
   maxWorkes: { type: DataTypes.INTEGER, allowNull: false },
-  location: { type: DataTypes.TEXT("long"), allowNull: false },
-  description: { type: DataTypes.TEXT("long") },
+  location: { type: DataTypes.TEXT('long'), allowNull: false },
+  description: { type: DataTypes.TEXT('long') },
 });
 
-const Job = sequelize.define("job", {
+const Job = sequelize.define('job', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   title: { type: DataTypes.STRING, allowNull: false },
-  description: { type: DataTypes.TEXT("long") },
+  description: { type: DataTypes.TEXT('long') },
   city: { type: DataTypes.STRING },
   salary: { type: DataTypes.INTEGER },
   scheduleType: { type: DataTypes.STRING, allowNull: false },
@@ -57,90 +57,81 @@ const Job = sequelize.define("job", {
   },
 });
 
-const JobView = sequelize.define("job_view", {
+const JobView = sequelize.define('job_view', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   userId: { type: DataTypes.INTEGER, allowNull: false },
   jobId: { type: DataTypes.INTEGER, allowNull: false },
 });
 
-const JobApply = sequelize.define("job_apply", {
+const JobApply = sequelize.define('job_apply', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   userIP: { type: DataTypes.STRING, allowNull: false },
+  userId: { type: DataTypes.INTEGER, allowNull: false },
   jobId: { type: DataTypes.INTEGER, allowNull: false },
 });
 
-const Pricing = sequelize.define("pricing", {
+const Pricing = sequelize.define('pricing', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   title: { type: DataTypes.STRING, allowNull: false },
   price: { type: DataTypes.INTEGER, allowNull: false },
   maxJobCount: { type: DataTypes.STRING, allowNull: false },
 });
 
-const Review = sequelize.define("review", {
+const Review = sequelize.define('review', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   userId: { type: DataTypes.INTEGER, allowNull: false },
-  text: { type: DataTypes.TEXT("medium"), allowNull: false },
+  text: { type: DataTypes.TEXT('medium'), allowNull: false },
 });
 
 // User and UserInfo (One-to-One)
 User.hasOne(UserInfo, {
-  foreignKey: "userId",
-  onDelete: "CASCADE",
-  as: "info",
+  foreignKey: 'userId',
+  onDelete: 'CASCADE',
+  as: 'info',
 });
-UserInfo.belongsTo(User, { foreignKey: "userId", as: "user" });
+UserInfo.belongsTo(User, { foreignKey: 'userId', as: 'user' });
 
 // User and JobApply (One-to-Many)
 User.hasMany(JobApply, {
-  foreignKey: "userId",
-  onDelete: "CASCADE",
-  as: "applications",
+  foreignKey: 'userId',
+  onDelete: 'CASCADE',
+  as: 'applications',
 });
-JobApply.belongsTo(User, { foreignKey: "userId", as: "user" });
+JobApply.belongsTo(User, { foreignKey: 'userId', as: 'user' });
 
 // User and Review (One-to-Many)
 User.hasMany(Review, {
-  foreignKey: "userId",
-  onDelete: "CASCADE",
-  as: "reviews",
+  foreignKey: 'userId',
+  onDelete: 'CASCADE',
+  as: 'reviews',
 });
-Review.belongsTo(User, { foreignKey: "userId", as: "user" });
+Review.belongsTo(User, { foreignKey: 'userId', as: 'user' });
 
 // Company and Job (One-to-Many)
 Company.hasMany(Job, {
-  foreignKey: "companyId",
-  onDelete: "CASCADE",
-  as: "jobs",
+  foreignKey: 'companyId',
+  onDelete: 'CASCADE',
+  as: 'jobs',
 });
-Job.belongsTo(Company, { foreignKey: "companyId", as: "company" });
+Job.belongsTo(Company, { foreignKey: 'companyId', as: 'company' });
 
 // Job and JobView (One-to-Many)
-Job.hasMany(JobView, { foreignKey: "jobId", onDelete: "CASCADE", as: "views" });
-JobView.belongsTo(Job, { foreignKey: "jobId", as: "job" });
+Job.hasMany(JobView, { foreignKey: 'jobId', onDelete: 'CASCADE', as: 'views' });
+JobView.belongsTo(Job, { foreignKey: 'jobId', as: 'job' });
 
 // Job and JobApply (One-to-Many)
 Job.hasMany(JobApply, {
-  foreignKey: "jobId",
-  onDelete: "CASCADE",
-  as: "applications",
+  foreignKey: 'jobId',
+  onDelete: 'CASCADE',
+  as: 'applications',
 });
-JobApply.belongsTo(Job, { foreignKey: "jobId", as: "job" });
+JobApply.belongsTo(Job, { foreignKey: 'jobId', as: 'job' });
 
 // Industry and Job (One-to-Many)
 Industry.hasMany(Job, {
-  foreignKey: "industryId",
-  as: "jons",
+  foreignKey: 'industryId',
+  as: 'jons',
 });
-Job.belongsTo(Industry, { foreignKey: "jobId", as: "industry" });
+Job.belongsTo(Industry, { foreignKey: 'jobId', as: 'industry' });
 
-export {
-  User,
-  Company,
-  Job,
-  JobView,
-  Pricing,
-  Review,
-  UserInfo,
-  JobApply,
-  Industry,
-};
+export { User, Company, Job, JobView, Pricing, Review, UserInfo, JobApply, Industry };
