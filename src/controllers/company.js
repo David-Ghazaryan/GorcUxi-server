@@ -29,7 +29,7 @@ export const create = async (req, res, next) => {
       userId: id,
     });
 
-    return res.status(201);
+    return res.status(201).json({success:true});
   } catch (error) {
     next(error);
   }
@@ -66,7 +66,7 @@ export const update = async (req, res, next) => {
       { where: { id, userId } }
     );
 
-    return res.status(200);
+    return res.status(200).json({success:true});
   } catch (error) {
     next(error);
   }
@@ -101,7 +101,7 @@ export const getAll = async (req, res, next) => {
       include: { model: Job, as: "jobs" },
     });
 
-    return res.status(data);
+    return res.send(data);
   } catch (error) {
     next(error);
   }
@@ -118,7 +118,7 @@ export const getUser = async (req, res, next) => {
       include: { model: Job, as: "jobs" },
     });
 
-    return res.status(data);
+    return res.send(data);
   } catch (error) {
     next(error);
   }
