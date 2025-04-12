@@ -4,7 +4,7 @@ import express, { json, urlencoded } from "express";
 import sequelize from "./db.js";
 import cors from "cors";
 import bodyParser from "body-parser";
-
+import path from 'path'
 import AuthRoutes from "./src/routes/auth.js";
 import ReviewRoutes from "./src/routes/review.js";
 import PricingRoutes from "./src/routes/pricing.js";
