@@ -62,6 +62,7 @@ export const update = async (req, res, next) => {
         maxWorkes,
         location,
         description,
+        userId
       },
       { where: { id, userId } }
     );

@@ -39,6 +39,7 @@ const Company = sequelize.define('company', {
   maxWorkes: { type: DataTypes.INTEGER, allowNull: false },
   location: { type: DataTypes.TEXT('long'), allowNull: false },
   description: { type: DataTypes.TEXT('long') },
+  userId: {type: DataTypes.INTEGER}
 });
 
 const Job = sequelize.define('job', {
