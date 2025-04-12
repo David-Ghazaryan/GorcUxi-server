@@ -101,12 +101,22 @@ export const getAll = async (req, res, next) => {
       ];
     }
 
-    const data = await Company.findAll({
+    const { rows: data, count: total } = await Company.findAndCountAll({
       where,
       limit,
       offset,
       include: { model: Job, as: "jobs" },
       order: [['id', 'DESC']]
+    });
+
+    return res.json({
+      data: products,
+      pagination: {
+        total,
+        page: parseInt(page),
+        limit: parseInt(limit),
+        totalPages: Math.ceil(total / limit),
+      },
     });
 
     return res.send(data);

@@ -34,7 +34,7 @@ export const create = async (req, res, next) => {
       allowStudents,
     });
 
-    return res.status(201);
+    return res.status(201).send({success: true});
   } catch (error) {
     next(error);
   }
@@ -84,7 +84,7 @@ export const update = async (req, res, next) => {
       { where: { id } },
     );
 
-    return res.status(200);
+    return res.status(200).send({success: true});
   } catch (error) {
     next(error);
   }
@@ -109,7 +109,7 @@ export const remove = async (req, res, next) => {
 
     await Job.destroy({ where: { id } });
 
-    return res.status(204);
+    return res.send({success: true});
   } catch (error) {
     next(error);
   }
