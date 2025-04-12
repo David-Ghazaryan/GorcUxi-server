@@ -3,7 +3,7 @@ import { Industry } from '../models/index.js';
 export const create = async (req, res, next) => {
   try {
     const { title } = req.body;
-    await Industry.create(title);
+    await Industry.create({title});
     return res.status(201);
   } catch (error) {
     next(error);

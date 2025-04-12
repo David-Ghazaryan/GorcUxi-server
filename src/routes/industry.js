@@ -4,9 +4,9 @@ import roleMiddleware from '../middlewares/check-role.js';
 
 const router = Router();
 
-router.post('/', roleMiddleware(['EMPLOYER', 'ADMIN']), create);
+router.post('/', roleMiddleware(['ADMIN']), create);
 router.get('/', getAll);
-router.put('/:id', roleMiddleware(['EMPLOYER', 'ADMIN']), update);
-router.delete('/:id', roleMiddleware(['EMPLOYER', 'ADMIN']), remove);
+router.put('/:id', roleMiddleware(['ADMIN']), update);
+router.delete('/:id', roleMiddleware(['ADMIN']), remove);
 
 export default router;
