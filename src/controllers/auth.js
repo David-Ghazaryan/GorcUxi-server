@@ -94,8 +94,8 @@ export const verifyEmail = async (req, res, next) => {
     }
 
     await User.update(
+      { where: { email: decoded.email } },
       { emailVerified: true },
-      { where: { email: decoded.email } }
     );
     return res.send({ success: true });
   } catch (error) {

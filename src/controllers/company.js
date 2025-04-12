@@ -64,7 +64,7 @@ export const update = async (req, res, next) => {
         description,
         userId
       },
-      { where: { id, userId } }
+      { where: { id: +id, userId } }
     );
 
     return res.status(200).json({success:true});
