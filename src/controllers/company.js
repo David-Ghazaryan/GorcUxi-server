@@ -110,7 +110,7 @@ export const getAll = async (req, res, next) => {
     });
 
     return res.json({
-      data: products,
+      data,
       pagination: {
         total,
         page: parseInt(page),
