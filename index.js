@@ -28,7 +28,7 @@ app.use("/api/auth", AuthRoutes);
 app.use("/api/review", ReviewRoutes);
 app.use("/api/pricing", PricingRoutes);
 app.use("/api/company", CompanyRoutes);
-app.use("/api/job", JonRoutes);
+app.use("/api/job", JobRoutes);
 app.use("/api/industry", IndustryRoutes);
 app.use("/api/upload", UploadRoutes);
 
