@@ -68,7 +68,7 @@ export const signUp = async (req, res, next) => {
       }
     );
 
-    await sendVerifyEmail(candidate.email, verificationToken, language);
+    await sendVerifyEmail(candidate.email, verificationToken);
     return res
       .status(409)
       .json({ success: false, message: "EMAIL_NOT_VERIFIED" });
