@@ -13,14 +13,14 @@ import roleMiddleware from '../middlewares/check-role.js';
 
 const router = Router();
 
-router.post('/', roleMiddleware(['USER', 'ADMIN']), create);
-router.put('/:id', roleMiddleware(['USER', 'ADMIN']), update);
-router.delete('/:id', roleMiddleware(['USER', 'ADMIN']), remove);
+router.post('/', roleMiddleware(['EMPLOYER', 'ADMIN']), create);
+router.put('/:id', roleMiddleware(['EMPLOYER', 'ADMIN']), update);
+router.delete('/:id', roleMiddleware(['EMPLOYER', 'ADMIN']), remove);
 router.get('/', getAll);
 router.get('/:id', getOne);
 
-router.post('/:id/apply', roleMiddleware(['USER', 'ADMIN']), createJobApply);
-router.get('/:id/applies', roleMiddleware(['USER', 'ADMIN']), getAllJobApplies);
-router.delete('/applies/:id', roleMiddleware(['USER', 'ADMIN']), removeJobApply);
-router.get('/applies', roleMiddleware(['USER', 'ADMIN']), getAllJobApplies);
+router.post('/:id/apply', roleMiddleware(['EMPLOYER', 'ADMIN']), createJobApply);
+router.get('/:id/applies', roleMiddleware(['EMPLOYER', 'ADMIN']), getAllJobApplies);
+router.delete('/applies/:id', roleMiddleware(['EMPLOYER', 'ADMIN']), removeJobApply);
+router.get('/applies', roleMiddleware(['EMPLOYER', 'ADMIN']), getAllJobApplies);
 export default router;
