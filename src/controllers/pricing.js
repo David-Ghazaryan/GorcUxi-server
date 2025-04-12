@@ -10,6 +10,7 @@ export const create = async (req, res, next) => {
     next(error);
   }
 };
+
 export const getAll = async (req, res, next) => {
   try {
     const data = await Pricing.findAll();

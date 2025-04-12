@@ -8,6 +8,7 @@ import path from 'path'
 import AuthRoutes from "./src/routes/auth.js";
 import ReviewRoutes from "./src/routes/review.js";
 import PricingRoutes from "./src/routes/pricing.js";
+import CompanyRoutes from "./src/routes/company.js";
 import UploadRoutes from "./src/routes/upload.js";
 
 import errorHandler from "./src/middlewares/error-handler.js";
@@ -24,6 +25,7 @@ app.use('/public', express.static(path.resolve('public')));
 app.use("/api/auth", AuthRoutes);
 app.use("/api/review", ReviewRoutes);
 app.use("/api/pricing", PricingRoutes);
+app.use("/api/company", CompanyRoutes);
 app.use("/api/upload", UploadRoutes);
 
 app.use(errorHandler);
