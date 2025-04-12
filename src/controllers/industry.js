@@ -4,7 +4,7 @@ export const create = async (req, res, next) => {
   try {
     const { title } = req.body;
     await Industry.create({title});
-    return res.status(201);
+    return res.status(201).send({success: true});
   } catch (error) {
     next(error);
   }
@@ -23,7 +23,7 @@ export const update = async (req, res, next) => {
     const { id } = req.params;
     const { title } = req.body;
     await Industry.update({ title }, { where: { id } });
-    return res.status(200);
+    return res.status(200).send({success: true});
   } catch (error) {
     next(error);
   }
