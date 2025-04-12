@@ -81,6 +81,7 @@ const Review = sequelize.define('review', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   userId: { type: DataTypes.INTEGER, allowNull: false },
   text: { type: DataTypes.TEXT('medium'), allowNull: false },
+  stars: { type: DataTypes.FLOAT, allowNull: false },
 });
 
 // User and UserInfo (One-to-One)

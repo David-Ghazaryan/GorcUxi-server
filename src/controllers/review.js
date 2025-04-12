@@ -1,10 +1,10 @@
-import { Review } from "../models/index.js";
+import { Review, User } from "../models/index.js";
 
 export const create = async (req, res, next) => {
   try {
     const { id: userId } = req.user;
-    const { text } = req.body;
-    await Review.create({ userId, text, rate });
+    const { text, stars } = req.body;
+    await Review.create({ userId, text, stars, rate });
 
     return res.status(201);
   } catch (error) {
@@ -14,7 +14,12 @@ export const create = async (req, res, next) => {
 
 export const getAll = async (req, res, next) => {
   try {
-    const data = await Review.findAll();
+    const data = await Review.findAll({
+      include: [{
+        model: User,
+        as: 'user'
+      }]
+    });
     return res.json(data);
   } catch (error) {
     next(error);
@@ -24,7 +29,13 @@ export const getAll = async (req, res, next) => {
 export const getOne = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const data = await Review.findByPk(id);
+    const data = await Review.findOne({
+      where: {id},
+      include: [{
+        model: User,
+        as: 'user'
+      }]
+    });
     if (!data) {
       return res.status(404).send({ success: false });
     }
@@ -38,9 +49,9 @@ export const update = async (req, res, next) => {
   try {
     const { id: userId } = req.user;
     const { id } = req.params;
-    const { text } = req.body;
+    const { text, stars } = req.body;
 
-    await Review.update({ text, rate }, { where: { id, userId } });
+    await Review.update({ text, stars, rate }, { where: { id, userId } });
     return res.status(200);
   } catch (error) {
     next(error);
