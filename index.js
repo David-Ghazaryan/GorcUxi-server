@@ -9,7 +9,7 @@ import AuthRoutes from "./src/routes/auth.js";
 import ReviewRoutes from "./src/routes/review.js";
 import PricingRoutes from "./src/routes/pricing.js";
 import CompanyRoutes from "./src/routes/company.js";
-import JobRoutes from "./src/routes/jon.js";
+import JobRoutes from "./src/routes/job.js";
 import IndustryRoutes from "./src/routes/industry.js";
 import UploadRoutes from "./src/routes/upload.js";
 
