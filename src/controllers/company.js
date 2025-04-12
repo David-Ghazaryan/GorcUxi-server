@@ -105,6 +105,7 @@ export const getAll = async (req, res, next) => {
       limit,
       offset,
       include: { model: Job, as: "jobs" },
+      order: ['id', 'DESC']
     });
 
     return res.send(data);
