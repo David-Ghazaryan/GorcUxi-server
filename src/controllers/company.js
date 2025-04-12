@@ -89,13 +89,19 @@ export const getAll = async (req, res, next) => {
   try {
     const { limit = 10, page = 1, q } = req.params;
     const offset = (+page - 1) * +limit;
+
+    
+    const where = {};
+  
+    if (q) {
+      where[Op.or] = [
+        { title: { [Op.iLike]: `%${q}%` } },
+        { description: { [Op.iLike]: `%${q}%` } },
+      ];
+    }
+
     const data = await Company.findAll({
-      where: {
-        [Op.or]: [
-          { title: { [Op.iLike]: `%${q}%` } },
-          { description: { [Op.iLike]: `%${q}%` } },
-        ],
-      },
+      where,
       limit,
       offset,
       include: { model: Job, as: "jobs" },
