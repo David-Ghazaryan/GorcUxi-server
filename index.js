@@ -4,9 +4,12 @@ import express, { json, urlencoded } from "express";
 import sequelize from "./db.js";
 import cors from "cors";
 import bodyParser from "body-parser";
+
 import AuthRoutes from "./src/routes/auth.js";
 import ReviewRoutes from "./src/routes/review.js";
 import PricingRoutes from "./src/routes/pricing.js";
+import UploadRoutes from "./src/routes/upload.js";
+
 import errorHandler from "./src/middlewares/error-handler.js";
 
 const app = express();
@@ -16,10 +19,12 @@ app.use(bodyParser.json({ limit: "1mb" }));
 app.use(json({ limit: "1mb" }));
 app.use(urlencoded({ limit: "1mb", extended: true }));
 app.use(cors({}));
+app.use('/public', express.static(path.resolve('public')));
 
 app.use("/api/auth", AuthRoutes);
 app.use("/api/review", ReviewRoutes);
 app.use("/api/pricing", PricingRoutes);
+app.use("/api/upload", UploadRoutes);
 
 app.use(errorHandler);
 
