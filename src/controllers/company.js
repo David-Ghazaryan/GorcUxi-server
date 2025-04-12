@@ -1,4 +1,4 @@
-import { Company, Job } from "../models";
+import { Company, Job } from "../models.js";
 import { Op } from "sequelize";
 
 export const create = async (req, res, next) => {
