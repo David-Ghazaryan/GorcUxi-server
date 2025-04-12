@@ -88,7 +88,7 @@ export const remove = async (req, res, next) => {
 
 export const getAll = async (req, res, next) => {
   try {
-    const { limit = 10, page = 1, q } = req.params;
+    const { limit = 10, page = 1, q } = req.query;
     const offset = (+page - 1) * +limit;
 
     
