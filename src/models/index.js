@@ -33,13 +33,16 @@ const Company = sequelize.define('company', {
   title: { type: DataTypes.STRING, allowNull: false },
   logo: { type: DataTypes.STRING, allowNull: false },
   mail: { type: DataTypes.STRING, allowNull: false },
+  city: { type: DataTypes.STRING, allowNull: false },
   backgroundImage: { type: DataTypes.STRING },
   phoneNumber: { type: DataTypes.STRING, allowNull: false },
   minWorkes: { type: DataTypes.INTEGER, allowNull: false },
   maxWorkes: { type: DataTypes.INTEGER, allowNull: false },
   location: { type: DataTypes.TEXT('long'), allowNull: false },
   description: { type: DataTypes.TEXT('long') },
-  userId: {type: DataTypes.INTEGER}
+  userId: { type: DataTypes.INTEGER },
+  webSite: { type: DataTypes.STRING },
+  industryId: { type: DataTypes.INTEGER },
 });
 
 const Job = sequelize.define('job', {
@@ -55,6 +58,10 @@ const Job = sequelize.define('job', {
   allowStudents: {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
+  },
+  deadline: {
+    type: DataTypes.DATE,
+    allowNull: false,
   },
 });
 
@@ -135,5 +142,16 @@ Industry.hasMany(Job, {
   as: 'jons',
 });
 Job.belongsTo(Industry, { foreignKey: 'jobId', as: 'industry' });
+
+// Company and Industry (One-to-Many)
+Company.belongsTo(Industry, {
+  foreignKey: 'industryId',
+  as: 'industry',
+});
+
+Industry.hasMany(Company, {
+  foreignKey: 'industryId',
+  as: 'companies',
+});
 
 export { User, Company, Job, JobView, Pricing, Review, UserInfo, JobApply, Industry };
