@@ -14,6 +14,7 @@ export const create = async (req, res, next) => {
       companyId,
       industryId,
       allowStudents,
+      deadLine, // Added
     } = req.body;
 
     const company = await Company.findOne({ where: { id: companyId, userId } });
@@ -32,9 +33,10 @@ export const create = async (req, res, next) => {
       companyId,
       industryId,
       allowStudents,
+      deadLine, // Added
     });
 
-    return res.status(201).send({success: true});
+    return res.status(201).send({ success: true });
   } catch (error) {
     next(error);
   }
@@ -67,6 +69,7 @@ export const update = async (req, res, next) => {
       companyId,
       industryId,
       allowStudents,
+      deadLine, // Added
     } = req.body;
 
     await Job.update(
@@ -80,11 +83,12 @@ export const update = async (req, res, next) => {
         companyId,
         industryId,
         allowStudents,
+        deadLine, // Added
       },
       { where: { id } },
     );
 
-    return res.status(200).send({success: true});
+    return res.status(200).send({ success: true });
   } catch (error) {
     next(error);
   }
@@ -109,7 +113,7 @@ export const remove = async (req, res, next) => {
 
     await Job.destroy({ where: { id } });
 
-    return res.send({success: true});
+    return res.send({ success: true });
   } catch (error) {
     next(error);
   }

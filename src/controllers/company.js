@@ -1,5 +1,5 @@
-import { Company, Job } from "../models/index.js";
-import { Op } from "sequelize";
+import { Company, Job } from '../models/index.js';
+import { Op } from 'sequelize';
 
 export const create = async (req, res, next) => {
   try {
@@ -14,6 +14,9 @@ export const create = async (req, res, next) => {
       maxWorkes,
       location,
       description,
+      webSite,
+      industryId,
+      city,
     } = req.body;
 
     await Company.create({
@@ -27,9 +30,12 @@ export const create = async (req, res, next) => {
       location,
       description,
       userId: id,
+      webSite,
+      industryId,
+      city,
     });
 
-    return res.status(201).json({success:true});
+    return res.status(201).json({ success: true });
   } catch (error) {
     next(error);
   }
@@ -49,6 +55,9 @@ export const update = async (req, res, next) => {
       maxWorkes,
       location,
       description,
+      webSite,
+      industryId,
+      city,
     } = req.body;
 
     await Company.update(
@@ -62,12 +71,15 @@ export const update = async (req, res, next) => {
         maxWorkes,
         location,
         description,
-        userId
+        webSite, // Added
+        industryId, // Added
+        city, // Added
+        userId,
       },
-      { where: { id: +id, userId } }
+      { where: { id: +id, userId } },
     );
 
-    return res.status(200).json({success:true});
+    return res.status(200).json({ success: true });
   } catch (error) {
     next(error);
   }
@@ -91,9 +103,8 @@ export const getAll = async (req, res, next) => {
     const { limit = 10, page = 1, q } = req.query;
     const offset = (+page - 1) * +limit;
 
-    
     const where = {};
-  
+
     if (q) {
       where[Op.or] = [
         { title: { [Op.iLike]: `%${q}%` } },
@@ -105,8 +116,8 @@ export const getAll = async (req, res, next) => {
       where,
       limit,
       offset,
-      include: { model: Job, as: "jobs" },
-      order: [['id', 'DESC']]
+      include: { model: Job, as: 'jobs' },
+      order: [['id', 'DESC']],
     });
 
     return res.json({
@@ -133,7 +144,7 @@ export const getUser = async (req, res, next) => {
       where: {
         userId,
       },
-      include: { model: Job, as: "jobs" },
+      include: { model: Job, as: 'jobs' },
     });
 
     return res.send(data);
@@ -147,7 +158,7 @@ export const getOne = async (req, res, next) => {
     const { id } = req.params;
 
     const data = await Company.findByPk(id, {
-      include: { model: Job, as: "jobs" },
+      include: { model: Job, as: 'jobs' },
     });
 
     return res.json(data);
