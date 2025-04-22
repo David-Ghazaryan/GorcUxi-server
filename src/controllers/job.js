@@ -14,7 +14,7 @@ export const create = async (req, res, next) => {
       companyId,
       industryId,
       allowStudents,
-      deadLine, // Added
+      deadLine,
     } = req.body;
 
     const company = await Company.findOne({ where: { id: companyId, userId } });
@@ -69,7 +69,7 @@ export const update = async (req, res, next) => {
       companyId,
       industryId,
       allowStudents,
-      deadLine, // Added
+      deadLine,
     } = req.body;
 
     await Job.update(
