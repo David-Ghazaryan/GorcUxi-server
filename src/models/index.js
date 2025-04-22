@@ -33,7 +33,7 @@ const Company = sequelize.define('company', {
   title: { type: DataTypes.STRING, allowNull: false },
   logo: { type: DataTypes.STRING, allowNull: false },
   mail: { type: DataTypes.STRING, allowNull: false },
-  city: { type: DataTypes.STRING, allowNull: false },
+  city: { type: DataTypes.STRING, allowNull: false, defaultValue: 'Unknown' },
   backgroundImage: { type: DataTypes.STRING },
   phoneNumber: { type: DataTypes.STRING, allowNull: false },
   minWorkes: { type: DataTypes.INTEGER, allowNull: false },
@@ -41,7 +41,7 @@ const Company = sequelize.define('company', {
   location: { type: DataTypes.TEXT('long'), allowNull: false },
   description: { type: DataTypes.TEXT('long') },
   userId: { type: DataTypes.INTEGER },
-  webSite: { type: DataTypes.STRING },
+  webSite: { type: DataTypes.STRING, allowNull: false, defaultValue: 'Unkown' },
   industryId: { type: DataTypes.INTEGER, allowNull: true },
 });
 
@@ -62,6 +62,7 @@ const Job = sequelize.define('job', {
   deadline: {
     type: DataTypes.DATE,
     allowNull: false,
+    defaultValue: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
   },
 });
 
