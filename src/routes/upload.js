@@ -19,7 +19,7 @@ const storage = multer.diskStorage({
     const ext = path.extname(file.originalname);
     const uniqueName = randomUUID() + ext;
     cb(null, uniqueName);
-  }
+  },
 });
 
 const upload = multer({ storage });

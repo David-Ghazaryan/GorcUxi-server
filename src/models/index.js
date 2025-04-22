@@ -42,7 +42,7 @@ const Company = sequelize.define('company', {
   description: { type: DataTypes.TEXT('long') },
   userId: { type: DataTypes.INTEGER },
   webSite: { type: DataTypes.STRING },
-  industryId: { type: DataTypes.INTEGER },
+  industryId: { type: DataTypes.INTEGER, allowNull: true },
 });
 
 const Job = sequelize.define('job', {
