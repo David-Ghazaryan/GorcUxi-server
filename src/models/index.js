@@ -41,7 +41,7 @@ const Company = sequelize.define('company', {
   location: { type: DataTypes.TEXT('long'), allowNull: false },
   description: { type: DataTypes.TEXT('long') },
   userId: { type: DataTypes.INTEGER },
-  webSite: { type: DataTypes.STRING, allowNull: false, defaultValue: 'Unkown' },
+  webSite: { type: DataTypes.STRING, allowNull: true },
   industryId: { type: DataTypes.INTEGER, allowNull: true },
 });
 
