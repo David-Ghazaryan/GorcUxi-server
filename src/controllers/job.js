@@ -83,7 +83,7 @@ export const update = async (req, res, next) => {
         companyId,
         industryId,
         allowStudents,
-        deadLine, // Added
+        deadLine,
       },
       { where: { id } },
     );
