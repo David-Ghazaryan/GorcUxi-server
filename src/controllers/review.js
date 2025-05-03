@@ -6,7 +6,7 @@ export const create = async (req, res, next) => {
     const { text, stars } = req.body;
     await Review.create({ userId, text, stars, rate });
 
-    return res.status(201);
+    return res.status(201).end();
   } catch (error) {
     next(error);
   }
@@ -39,7 +39,7 @@ export const getOne = async (req, res, next) => {
     if (!data) {
       return res.status(404).send({ success: false });
     }
-    return res.status(200).json(data);
+    return res.json(data);
   } catch (error) {
     next(error);
   }
@@ -52,7 +52,7 @@ export const update = async (req, res, next) => {
     const { text, stars } = req.body;
 
     await Review.update({ text, stars, rate }, { where: { id, userId } });
-    return res.status(200);
+    return res.status(200).end();
   } catch (error) {
     next(error);
   }
@@ -63,7 +63,7 @@ export const remove = async (req, res, next) => {
     const { id: userId } = req.user;
     const { id } = req.params;
     await Review.destroy({ where: { id, userId } });
-    return res.status(200).send({ success: true });
+    return res.status(204).end();
   } catch (error) {
     next(error);
   }

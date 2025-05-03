@@ -14,7 +14,7 @@ export const create = async (req, res, next) => {
 export const getAll = async (req, res, next) => {
   try {
     const data = await Pricing.findAll();
-    return res.status(200).json(data);
+    return res.json(data);
   } catch (error) {
     next(error);
   }
@@ -39,7 +39,7 @@ export const update = async (req, res, next) => {
     const { title, price, maxJobCount } = req.body;
 
     await Pricing.update({ title, price, maxJobCount }, { where: { id } });
-    return res.status(200);
+    return res.status(200).end();
   } catch (error) {
     next(error);
   }
@@ -49,7 +49,7 @@ export const remove = async (req, res, next) => {
   try {
     const { id } = req.params;
     await Pricing.destroy({ where: { id } });
-    return res.status(204);
+    return res.status(204).end();
   } catch (error) {
     next(error);
   }

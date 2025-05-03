@@ -68,7 +68,6 @@ const Job = sequelize.define('job', {
 
 const JobView = sequelize.define('job_view', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  userId: { type: DataTypes.INTEGER, allowNull: false },
   jobId: { type: DataTypes.INTEGER, allowNull: false },
 });
 
@@ -140,7 +139,7 @@ JobApply.belongsTo(Job, { foreignKey: 'jobId', as: 'job' });
 // Industry and Job (One-to-Many)
 Industry.hasMany(Job, {
   foreignKey: 'industryId',
-  as: 'jons',
+  as: 'jobs',
 });
 Job.belongsTo(Industry, { foreignKey: 'jobId', as: 'industry' });
 

@@ -11,7 +11,7 @@ export const update = async (req, res, next) => {
       { where: { id } }
     );
 
-    return res.status(200);
+    return res.status(200).end();
   } catch (error) {
     next(error);
   }

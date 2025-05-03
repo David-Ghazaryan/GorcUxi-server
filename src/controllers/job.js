@@ -20,7 +20,7 @@ export const create = async (req, res, next) => {
     const company = await Company.findOne({ where: { id: companyId, userId } });
 
     if (!company) {
-      return res.status(400).json({ success: false });
+      return res.status(400).json({ success: false, message: "COMPANY_NOT_FOUND" });
     }
 
     await Job.create({
@@ -33,10 +33,10 @@ export const create = async (req, res, next) => {
       companyId,
       industryId,
       allowStudents,
-      deadLine, // Added
+      deadLine,
     });
 
-    return res.status(201).send({ success: true });
+    return res.status(201).end();
   } catch (error) {
     next(error);
   }
@@ -56,7 +56,7 @@ export const update = async (req, res, next) => {
     });
 
     if (!company) {
-      return res.status(400).json({ success: false });
+      return res.status(400).json({ success: false, message: "COMPANY_NOT_FOUND" });
     }
 
     const {
@@ -88,7 +88,7 @@ export const update = async (req, res, next) => {
       { where: { id } },
     );
 
-    return res.status(200).send({ success: true });
+    return res.status(200).end();
   } catch (error) {
     next(error);
   }
@@ -100,20 +100,16 @@ export const remove = async (req, res, next) => {
     const { id } = req.params;
 
     const job = await Job.findByPk(id, {
-      include: { model: Company, as: 'company' },
+      include: { model: Company, as: 'company', where: {userId} },
     });
-
-    const company = await Company.findOne({
-      where: { id: job.companyId, userId },
-    });
-
-    if (!company) {
-      return res.status(400).json({ success: false });
+    
+    if (!job) {
+      return res.status(400).json({ success: false, message: "JOB_NOT_FOUND" });
     }
 
     await Job.destroy({ where: { id } });
 
-    return res.send({ success: true });
+    return res.status(204).end();
   } catch (error) {
     next(error);
   }
@@ -123,7 +119,8 @@ export const getAll = async (req, res, next) => {
   try {
     const { limit = 10, page = 1, q } = req.params;
     const offset = (+page - 1) * +limit;
-    const data = await Job.findAll({
+
+    const { rows: data, count: total } = Job.findAndCountAll({
       where: {
         [Op.or]: [
           { title: { [Op.iLike]: `%${q}%` } },
@@ -136,7 +133,16 @@ export const getAll = async (req, res, next) => {
       include: { model: Company, as: 'company' },
     });
 
-    return res.status(data);
+    return res.json({
+      data,
+      pagination: {
+        total,
+        page: parseInt(page),
+        limit: parseInt(limit),
+        totalPages: Math.ceil(total / limit),
+      },
+    });
+
   } catch (error) {
     next(error);
   }
@@ -165,13 +171,14 @@ export const getOne = async (req, res, next) => {
 export const createJobApply = async (req, res, next) => {
   try {
     const { jobId } = req.body;
-    const { id } = req.user;
-    const condidate = await User.findByPk({ id }, { include: [{ model: UserInfo, as: 'info' }] });
+    const { id: userId } = req.user;
+    const userIP = req.headers['x-forwarded-for'];
+    const condidate = await User.findByPk({ userId }, { include: [{ model: UserInfo, as: 'info' }] });
 
-    if (!condidate.UserInfo.cvUrl) {
+    if (!condidate.info.cvUrl) {
       return res.status(400).json({
         success: false,
-        message: 'CV is required ',
+        message: 'CV is required',
       });
     }
 
@@ -180,16 +187,16 @@ export const createJobApply = async (req, res, next) => {
     });
 
     if (data) {
-      return res.status(400).json({ success: false });
+      return res.status(400).json({ success: false, message: "ALREADY_APPLIED" });
     }
 
     await JobApply.create({
-      userId: req.user.id,
+      userId: userId,
       jobId,
-      userIP: req.ip,
+      userIP,
     });
 
-    return res.status(201);
+    return res.status(201),end();
   } catch (error) {
     next(error);
   }
@@ -202,7 +209,7 @@ export const getAllJobApplies = async (req, res, next) => {
       where: { jobId: id },
       include: [{ model: Job, as: 'job' }],
     });
-    return res.status(200);
+    return res.status(200).end();
   } catch (error) {
     next(error);
   }

@@ -55,7 +55,7 @@ export const signUp = async (req, res, next) => {
     }
 
     if (candidate.emailVerified) {
-      return res.status(409).json({ success: false, message: 'EMAIL_NOT_VERIFIED' });
+      return res.status(409).json({ success: false, message: "EMAIL_IN_USE" });
     }
 
     const verificationToken = jwt.sign({ email: candidate.email }, process.env.SECRET_KEY, {
@@ -63,7 +63,9 @@ export const signUp = async (req, res, next) => {
     });
 
     await sendVerifyEmail(candidate.email, verificationToken);
-    return res.status(409).json({ success: false, message: 'EMAIL_IN_USE' });
+    return res
+      .status(409)
+      .json({ success: false, message: "EMAIL_NOT_VERIFIED" });
   } catch (error) {
     next(error);
   }
