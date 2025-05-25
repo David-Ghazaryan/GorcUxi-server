@@ -6,6 +6,7 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import path from 'path';
 import AuthRoutes from './src/routes/auth.js';
+import UserRoutes from './src/routes/user.js';
 import ReviewRoutes from './src/routes/review.js';
 import PricingRoutes from './src/routes/pricing.js';
 import CompanyRoutes from './src/routes/company.js';
@@ -25,6 +26,7 @@ app.use(cors({}));
 app.use('/public', express.static(path.resolve('public')));
 
 app.use('/api/auth', AuthRoutes);
+app.use('/api/user', UserRoutes);
 app.use('/api/review', ReviewRoutes);
 app.use('/api/pricing', PricingRoutes);
 app.use('/api/company', CompanyRoutes);
