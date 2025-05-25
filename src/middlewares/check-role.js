@@ -1,16 +1,17 @@
-import jwt from "jsonwebtoken";
+import jwt from 'jsonwebtoken';
 
 export default function (roles) {
   return function (req, res, next) {
     try {
-      if (req.method === "OPTIONS") {
+      if (req.method === 'OPTIONS') {
         return next();
       }
-      const token = req.headers?.authorization?.split(" ")[1];
+      const token = req.headers?.authorization?.split(' ')[1];
       if (!token) {
         return res.status(401).json({ success: false });
       }
       const decoded = jwt.verify(token, process.env.SECRET_KEY);
+      console.log(decoded);
       if (!roles?.includes(decoded.role)) {
         return res.status(401).json({ message: "You don't have access" });
       }

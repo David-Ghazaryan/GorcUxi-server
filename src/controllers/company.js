@@ -100,7 +100,7 @@ export const remove = async (req, res, next) => {
 
 export const getAll = async (req, res, next) => {
   try {
-    const { limit = 10, page = 1, q } = req.query;
+    const { limit = 10, page = 1, q, city } = req.query;
     const offset = (+page - 1) * +limit;
 
     const where = {};
@@ -111,7 +111,9 @@ export const getAll = async (req, res, next) => {
         { description: { [Op.iLike]: `%${q}%` } },
       ];
     }
-
+    if (city) {
+      where[city] = city;
+    }
     const { rows: data, count: total } = await Company.findAndCountAll({
       where,
       limit,

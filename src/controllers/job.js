@@ -20,7 +20,7 @@ export const create = async (req, res, next) => {
     const company = await Company.findOne({ where: { id: companyId, userId } });
 
     if (!company) {
-      return res.status(400).json({ success: false, message: "COMPANY_NOT_FOUND" });
+      return res.status(400).json({ success: false, message: 'COMPANY_NOT_FOUND' });
     }
 
     await Job.create({
@@ -56,7 +56,7 @@ export const update = async (req, res, next) => {
     });
 
     if (!company) {
-      return res.status(400).json({ success: false, message: "COMPANY_NOT_FOUND" });
+      return res.status(400).json({ success: false, message: 'COMPANY_NOT_FOUND' });
     }
 
     const {
@@ -100,11 +100,11 @@ export const remove = async (req, res, next) => {
     const { id } = req.params;
 
     const job = await Job.findByPk(id, {
-      include: { model: Company, as: 'company', where: {userId} },
+      include: { model: Company, as: 'company', where: { userId } },
     });
-    
+
     if (!job) {
-      return res.status(400).json({ success: false, message: "JOB_NOT_FOUND" });
+      return res.status(400).json({ success: false, message: 'JOB_NOT_FOUND' });
     }
 
     await Job.destroy({ where: { id } });
@@ -117,10 +117,10 @@ export const remove = async (req, res, next) => {
 
 export const getAll = async (req, res, next) => {
   try {
-    const { limit = 10, page = 1, q } = req.params;
+    const { limit = 10, page = 1, q = '' } = req.params;
     const offset = (+page - 1) * +limit;
 
-    const { rows: data, count: total } = Job.findAndCountAll({
+    const { rows: data, count: total } = await Job.findAndCountAll({
       where: {
         [Op.or]: [
           { title: { [Op.iLike]: `%${q}%` } },
@@ -142,7 +142,6 @@ export const getAll = async (req, res, next) => {
         totalPages: Math.ceil(total / limit),
       },
     });
-
   } catch (error) {
     next(error);
   }
@@ -173,7 +172,10 @@ export const createJobApply = async (req, res, next) => {
     const { jobId } = req.body;
     const { id: userId } = req.user;
     const userIP = req.headers['x-forwarded-for'];
-    const condidate = await User.findByPk({ userId }, { include: [{ model: UserInfo, as: 'info' }] });
+    const condidate = await User.findByPk(
+      { userId },
+      { include: [{ model: UserInfo, as: 'info' }] },
+    );
 
     if (!condidate.info.cvUrl) {
       return res.status(400).json({
@@ -187,7 +189,7 @@ export const createJobApply = async (req, res, next) => {
     });
 
     if (data) {
-      return res.status(400).json({ success: false, message: "ALREADY_APPLIED" });
+      return res.status(400).json({ success: false, message: 'ALREADY_APPLIED' });
     }
 
     await JobApply.create({
@@ -196,7 +198,7 @@ export const createJobApply = async (req, res, next) => {
       userIP,
     });
 
-    return res.status(201),end();
+    return res.status(201), end();
   } catch (error) {
     next(error);
   }

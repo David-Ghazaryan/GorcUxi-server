@@ -1,4 +1,4 @@
-import Router from "express";
+import Router from 'express';
 import {
   signUp,
   signIn,
@@ -7,20 +7,16 @@ import {
   forgotPassword,
   resetPassword,
   updatePassword,
-} from "../controllers/auth.js";
-import roleMiddleware from "../middlewares/check-role.js";
+} from '../controllers/auth.js';
+import roleMiddleware from '../middlewares/check-role.js';
 const router = new Router();
 
-router.post("/sign-up", signUp);
-router.post("/sign-in", signIn);
-router.post("/me", getMe);
-router.post("/verify-email", verifyEmail);
-router.post("/forgot-password", forgotPassword);
-router.post("/reset-password", resetPassword);
-router.post(
-  "/update-password",
-  roleMiddleware(["USER", "ADMIN"]),
-  updatePassword
-);
+router.post('/sign-up', signUp);
+router.post('/sign-in', signIn);
+router.get('/me', roleMiddleware(['USER', 'EMPLOYER', 'ADMIN']), getMe);
+router.post('/verify-email', verifyEmail);
+router.post('/forgot-password', forgotPassword);
+router.post('/reset-password', resetPassword);
+router.post('/update-password', roleMiddleware(['USER', 'ADMIN']), updatePassword);
 
 export default router;
