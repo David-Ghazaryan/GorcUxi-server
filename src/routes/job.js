@@ -18,6 +18,7 @@ router.put('/:id', roleMiddleware(['EMPLOYER', 'ADMIN']), update);
 router.delete('/:id', roleMiddleware(['EMPLOYER', 'ADMIN']), remove);
 router.get('/', getAll);
 router.get('/:id', getOne);
+router.get('/similiar/:id', getOne);
 
 router.post('/:id/apply', roleMiddleware(['EMPLOYER', 'ADMIN']), createJobApply);
 router.get('/:id/applies', roleMiddleware(['EMPLOYER', 'ADMIN']), getAllJobApplies);

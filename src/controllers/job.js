@@ -168,6 +168,18 @@ export const getOne = async (req, res, next) => {
   }
 };
 
+export const getSimilarJobs = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const data = await Job.findAll({ where: { industryId: id }, limit: 5 });
+
+    return res.json(data);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const createJobApply = async (req, res, next) => {
   try {
     const { jobId } = req.body;
