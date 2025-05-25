@@ -6,7 +6,10 @@ import { sendVerifyEmail, sendForgotPasswordEmail } from '../utils/email.js';
 export const signIn = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ where: { email, emailVerified: true } });
+    const user = await User.findOne({
+      where: { email, emailVerified: true },
+      include: { model: UserInfo, as: 'info' },
+    });
 
     if (!user || !bcrypt.compareSync(password, user.password)) {
       return res.status(400).json({ success: false, message: 'INVALID_CREDENTIALS' });
@@ -145,7 +148,7 @@ export const updatePassword = async (req, res, next) => {
 export const getMe = async (req, res, next) => {
   try {
     const { id } = req.user;
-    const user = await User.findOne({ where: { id } });
+    const user = await User.findOne({ where: { id }, include: { model: UserInfo, as: 'info' } });
 
     if (!user) {
       return res.status(404).json({ success: false });
