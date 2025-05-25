@@ -137,11 +137,11 @@ Job.hasMany(JobApply, {
 JobApply.belongsTo(Job, { foreignKey: 'jobId', as: 'job' });
 
 // Industry and Job (One-to-Many)
+Job.belongsTo(Industry, { foreignKey: 'industryId', as: 'industry' });
 Industry.hasMany(Job, {
   foreignKey: 'industryId',
   as: 'jobs',
 });
-Job.belongsTo(Industry, { foreignKey: 'jobId', as: 'industry' });
 
 // Industry and UserInfo (One-to-Many)
 UserInfo.belongsTo(Industry, {
