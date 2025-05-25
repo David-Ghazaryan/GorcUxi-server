@@ -154,6 +154,7 @@ export const getOne = async (req, res, next) => {
 
     const data = await Job.findByPk(id, {
       include: { model: Company, as: 'company' },
+      include: [{ model: Industry, as: 'industry' }],
     });
 
     JobView.upsert({
