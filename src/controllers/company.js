@@ -100,7 +100,7 @@ export const remove = async (req, res, next) => {
 
 export const getAll = async (req, res, next) => {
   try {
-    const { limit = 10, page = 1, q, city } = req.query;
+    const { limit = 10, page = 1, q, city, hasJobs } = req.query;
     const offset = (+page - 1) * +limit;
 
     const where = {};
@@ -118,7 +118,7 @@ export const getAll = async (req, res, next) => {
       where,
       limit,
       offset,
-      include: { model: Job, as: 'jobs' },
+      include: { model: Job, as: 'jobs', required: hasJobs === 'true' },
       order: [['id', 'DESC']],
     });
 
