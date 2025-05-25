@@ -144,11 +144,15 @@ Industry.hasMany(Job, {
 Job.belongsTo(Industry, { foreignKey: 'jobId', as: 'industry' });
 
 // Industry and UserInfo (One-to-Many)
+UserInfo.belongsTo(Industry, {
+  foreignKey: 'industryId',
+  as: 'industry',
+});
+
 Industry.hasMany(UserInfo, {
   foreignKey: 'industryId',
   as: 'userInfos',
 });
-UserInfo.belongsTo(Industry, { foreignKey: 'userInfoId', as: 'industry' });
 
 // Company and Industry (One-to-Many)
 Company.belongsTo(Industry, {
