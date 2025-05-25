@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { User, UserInfo } from '../models/index.js';
+import { Industry, User, UserInfo } from '../models/index.js';
 import { sendVerifyEmail, sendForgotPasswordEmail } from '../utils/email.js';
 
 export const signIn = async (req, res, next) => {
@@ -8,7 +8,7 @@ export const signIn = async (req, res, next) => {
     const { email, password } = req.body;
     const user = await User.findOne({
       where: { email, emailVerified: true },
-      include: { model: UserInfo, as: 'info' },
+      include: { model: UserInfo, as: 'info', include: [{ model: Industry, as: 'industry' }] },
     });
 
     if (!user || !bcrypt.compareSync(password, user.password)) {
@@ -148,7 +148,10 @@ export const updatePassword = async (req, res, next) => {
 export const getMe = async (req, res, next) => {
   try {
     const { id } = req.user;
-    const user = await User.findOne({ where: { id }, include: { model: UserInfo, as: 'info' } });
+    const user = await User.findOne({
+      where: { id },
+      include: { model: UserInfo, as: 'info', include: [{ model: Industry, as: 'industry' }] },
+    });
 
     if (!user) {
       return res.status(404).json({ success: false });
