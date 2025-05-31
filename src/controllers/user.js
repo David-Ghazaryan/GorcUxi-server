@@ -45,7 +45,9 @@ export const getAll = async (req, res, next) => {
     const offset = (+page - 1) * +limit;
 
     const where = {};
-    const mainWhere = {};
+    const mainWhere = {
+      role: {[Op.not]: "ADMIN"}
+    };
 
     if(nameQ) {
       mainWhere.info =  { [Op.iLike]: `%${q}%` }
