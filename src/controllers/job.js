@@ -156,7 +156,9 @@ export const getOne = async (req, res, next) => {
       include: { model: Company, as: 'company' },
       include: { model: Industry, as: 'industry' },
     });
-
+    if (!data) {
+      return res.status(404).json({ message: 'Job not found' });
+    }
     JobView.upsert({
       userIP,
       jobId: id,

@@ -8,6 +8,7 @@ import {
   createJobApply,
   getAllJobApplies,
   removeJobApply,
+  getSimilarJobs,
 } from '../controllers/job.js';
 import roleMiddleware from '../middlewares/check-role.js';
 
@@ -17,7 +18,7 @@ router.post('/', roleMiddleware(['EMPLOYER', 'ADMIN']), create);
 router.put('/:id', roleMiddleware(['EMPLOYER', 'ADMIN']), update);
 router.delete('/:id', roleMiddleware(['EMPLOYER', 'ADMIN']), remove);
 router.get('/', getAll);
-router.get('/similar/:id', getOne);
+router.get('/similar/:id', getSimilarJobs);
 router.get('/:id', getOne);
 
 router.post('/:id/apply', roleMiddleware(['EMPLOYER', 'ADMIN']), createJobApply);
