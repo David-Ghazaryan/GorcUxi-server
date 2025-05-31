@@ -112,7 +112,7 @@ export const getAll = async (req, res, next) => {
       ];
     }
     if (city) {
-      where[city] = city;
+      where.city = city;
     }
     const { rows: data, count: total } = await Company.findAndCountAll({
       where,

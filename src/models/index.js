@@ -18,6 +18,8 @@ const UserInfo = sequelize.define('user_info', {
   cvUrl: { type: DataTypes.STRING },
   info: { type: DataTypes.TEXT('long') },
   city: { type: DataTypes.STRING },
+  phoneNumber: { type: DataTypes.STRING },
+  industry: { type: DataTypes.STRING },
   industryId: { type: DataTypes.INTEGER },
   scheduleType: { type: DataTypes.STRING },
   salary: { type: DataTypes.INTEGER },
