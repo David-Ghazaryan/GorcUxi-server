@@ -4,7 +4,7 @@ import roleMiddleware from '../middlewares/check-role.js';
 const router = new Router();
 
 router.put('/info', roleMiddleware(['USER', 'EMPLOYER', 'ADMIN']), update);
-router.get('/:id',  getOne);
 router.get('/',  getAll);
+router.get('/:id',  getOne);
 
 export default router;
