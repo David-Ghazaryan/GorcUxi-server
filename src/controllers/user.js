@@ -4,11 +4,11 @@ import { User } from "../models/index.js";
 export const update = async (req, res, next) => {
   try {
     const { id } = req.user;
-    const { gender, cvUrl, info, city, industryId, scheduleType, salary } =
+    const { gender, cvUrl, info, city, industryId, scheduleType, salary, industryName } =
       req.body;
 
     await User.update(
-      { gender, cvUrl, info, city, industryId, scheduleType, salary },
+      { gender, cvUrl, info, city, industryId, scheduleType, salary, industryName },
       { where: { id } }
     );
 
@@ -41,7 +41,7 @@ export const getOne = async (req, res, next) => {
 
 export const getAll = async (req, res, next) => {
   try {
-    const { limit = 10, page = 1, q, nameQ, city, gender, hasSalary, scheduleType } = req.query;
+    const { limit = 10, page = 1, q, nameQ, city, gender, hasSalary, scheduleType, industryName } = req.query;
     const offset = (+page - 1) * +limit;
 
     const where = {};
@@ -64,6 +64,9 @@ export const getAll = async (req, res, next) => {
     }
     if (scheduleType) {
       where.scheduleType = scheduleType;
+    }
+    if (industryName) {
+      where.industryName = industryName;
     }
     if (hasSalary === 'true') {
       where.salary = {[Op.gt]: 0};
