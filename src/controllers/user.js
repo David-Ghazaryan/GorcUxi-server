@@ -1,5 +1,5 @@
 import { Op } from "sequelize";
-import { User, Industry } from "../models/index.js";
+import { User, Industry, UserInfo } from "../models/index.js";
 
 export const update = async (req, res, next) => {
   try {
