@@ -60,6 +60,9 @@ export const getAll = async (req, res, next) => {
     if (gender) {
       where.gender = gender;
     }
+    if (scheduleType) {
+      where.scheduleType = scheduleType;
+    }
     if (hasSalary === 'true') {
       where.salary = {[Op.gt]: 0};
     }
