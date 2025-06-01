@@ -4,11 +4,11 @@ import { User, Industry, UserInfo } from "../models/index.js";
 export const update = async (req, res, next) => {
   try {
     const { id } = req.user;
-    const { avatar, fullName, gender, cvUrl, info, city, industryId, scheduleType, salary, industryName, phoneNumber } =
+    const { avatar, fullName, gender, cvUrl, info, city, industryId, scheduleType, salary, industryName, phoneNumber, level } =
       req.body;
 
     await UserInfo.update(
-      { gender, cvUrl, info, city, industryId, scheduleType, salary, industryName, phoneNumber },
+      { gender, cvUrl, info, city, industryId, scheduleType, salary, industryName, phoneNumber, level },
       { where: { userId: id } }
     );
 
