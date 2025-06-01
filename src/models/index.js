@@ -23,6 +23,7 @@ const UserInfo = sequelize.define('user_info', {
   industryId: { type: DataTypes.INTEGER },
   scheduleType: { type: DataTypes.STRING },
   salary: { type: DataTypes.INTEGER },
+  level: { type: DataTypes.INTEGER },
 });
 
 const Industry = sequelize.define('industry', {
