@@ -1,4 +1,4 @@
-import { Review, User } from "../models/index.js";
+import { Review, User, UserInfo } from "../models/index.js";
 
 export const create = async (req, res, next) => {
   try {
@@ -17,7 +17,11 @@ export const getAll = async (req, res, next) => {
     const data = await Review.findAll({
       include: [{
         model: User,
-        as: 'user'
+        as: 'user',
+        include: [{
+          model: UserInfo,
+          as: 'info'
+        }]
       }]
     });
     return res.json(data);

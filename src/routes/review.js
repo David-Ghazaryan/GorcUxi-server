@@ -5,7 +5,7 @@ import {
   getAll,
   update,
   remove,
-} from "../controllers/pricing.js";
+} from "../controllers/review.js";
 import roleMiddleware from "../middlewares/check-role.js";
 
 const router = Router();
