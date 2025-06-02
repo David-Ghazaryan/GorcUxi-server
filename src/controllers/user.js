@@ -94,7 +94,7 @@ export const getAll = async (req, res, next) => {
 
     const where = {};
     const mainWhere = {
-      role: { [Op.not]: 'ADMIN' },
+      role: 'USER'
     };
 
     if (nameQ) {

@@ -1,5 +1,5 @@
 import { Company, Job, JobView, JobApply, User, UserInfo, Industry } from '../models/index.js';
-import { Op } from 'sequelize';
+import { Op, fn } from 'sequelize';
 
 export const create = async (req, res, next) => {
   try {
@@ -117,20 +117,51 @@ export const remove = async (req, res, next) => {
 
 export const getAll = async (req, res, next) => {
   try {
-    const { limit = 10, page = 1, q = '' } = req.params;
+    const { limit = 10, page = 1, q = '', levels,
+industryIds,
+selectedSalary,
+allowStudents,
+cities,
+scheduleTypes, } = req.params;
     const offset = (+page - 1) * +limit;
 
-    const { rows: data, count: total } = await Job.findAndCountAll({
-      where: {
+    let where = {};
+
+    if(q) {
+ where = {
         [Op.or]: [
           { title: { [Op.iLike]: `%${q}%` } },
           { description: { [Op.iLike]: `%${q}%` } },
           { city: { [Op.iLike]: `%${q}%` } },
         ],
-      },
+      };
+    }
+
+    if(industryIds) {
+      where.industryId = industryIds
+    }
+    if(cities) {
+      where.city = cities
+    }
+
+    if(selectedSalary) {
+      where.salary = {[Op.gt]: 0}
+    }
+    
+    if(allowStudents) {
+      where.allowStudents = true
+    }
+
+    if(scheduleTypes) {
+      where.scheduleType = scheduleTypes
+    }
+
+    const { rows: data, count: total } = await Job.findAndCountAll({
+     where,
       limit,
       offset,
-      include: { model: Company, as: 'company' },
+      include: { model: Company, as: 'c   ompany' },
+       order: fn("RANDOM"),
     });
 
     return res.json({
