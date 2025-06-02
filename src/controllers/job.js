@@ -174,7 +174,7 @@ export const getSimilarJobs = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const data = await Job.findAll({ where: { industryId: id }, limit: 5 });
+    const data = await Job.findAll({ where: { industryId: id }, limit: 3 });
 
     return res.json(data);
   } catch (error) {
