@@ -117,18 +117,23 @@ export const remove = async (req, res, next) => {
 
 export const getAll = async (req, res, next) => {
   try {
-    const { limit = 10, page = 1, q = '', levels,
-industryIds,
-selectedSalary,
-allowStudents,
-cities,
-scheduleTypes, } = req.params;
+    const {
+      limit = 10,
+      page = 1,
+      q = '',
+      levels,
+      industryIds,
+      selectedSalary,
+      allowStudents,
+      cities,
+      scheduleTypes,
+    } = req.query;
     const offset = (+page - 1) * +limit;
 
     let where = {};
 
-    if(q) {
- where = {
+    if (q) {
+      where = {
         [Op.or]: [
           { title: { [Op.iLike]: `%${q}%` } },
           { description: { [Op.iLike]: `%${q}%` } },
@@ -137,31 +142,35 @@ scheduleTypes, } = req.params;
       };
     }
 
-    if(industryIds) {
-      where.industryId = industryIds
+    if (industryIds) {
+      where.industryId = industryIds;
     }
-    if(cities) {
-      where.city = cities
-    }
-
-    if(selectedSalary) {
-      where.salary = {[Op.gt]: 0}
-    }
-    
-    if(allowStudents) {
-      where.allowStudents = true
+    if (cities) {
+      where.city = cities;
     }
 
-    if(scheduleTypes) {
-      where.scheduleType = scheduleTypes
+    if (selectedSalary === 'true') {
+      where.salary = { [Op.gt]: 0 };
+    }
+
+    if (levels) {
+      where.level = levels;
+    }
+
+    if (allowStudents === 'true') {
+      where.allowStudents = true;
+    }
+
+    if (scheduleTypes !== 'undefined') {
+      where.scheduleType = scheduleTypes;
     }
 
     const { rows: data, count: total } = await Job.findAndCountAll({
-     where,
+      where,
       limit,
       offset,
-      include: { model: Company, as: 'c   ompany' },
-       order: fn("RANDOM"),
+      include: { model: Company, as: 'company' },
+      order: fn('RANDOM'),
     });
 
     return res.json({
